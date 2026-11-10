@@ -19,7 +19,8 @@ def test_all_limits_reset_and_other_assignments_unchanged(session):
     response=client.post('/api/maintenance',json=body)
     assert response.status_code==201,response.text
     row=response.json()
-    assert row['actual_labor_hours'] is None
+    expected_labor = conn.execute(text("SELECT labor_hours FROM mpd_tasks WHERE mpd_number='32-080-00'")).scalar_one()
+    assert Decimal(str(row['actual_labor_hours'])) == expected_labor
     assert Decimal(str(row['flight_hours_at_maintenance'])) == before['total_flight_hours']
     assert row['flight_cycles_at_maintenance'] == before['total_flight_cycles']
     assert client.post('/api/maintenance',json=body).json()['maintenance_id']==row['maintenance_id']

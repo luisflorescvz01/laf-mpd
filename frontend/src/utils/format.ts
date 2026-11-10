@@ -26,9 +26,19 @@ export const localDay = (value: string) =>
     day: '2-digit',
   }).format(new Date(value));
 export const taskNames: Record<string, string> = {
+  '24-010-01': 'Cambio de aceite · IDG izquierdo',
+  '24-010-02': 'Cambio de aceite · IDG derecho',
+  '24-030-01': 'Nivel de aceite · IDG izquierdo',
+  '24-030-02': 'Nivel de aceite · IDG derecho',
   '27-132-00': 'Nivel de aceite · Flaps',
   '29-070-00': 'Filtro de presurización',
+  '29-090-00': 'Indicador de presión diferencial · Filtros hidráulicos',
+  '32-010-01': 'Limpieza de amortiguador · Tren principal izquierdo',
+  '32-010-02': 'Limpieza de amortiguador · Tren principal derecho',
+  '32-030-01': 'Lubricación · Tren principal izquierdo',
+  '32-030-02': 'Lubricación · Tren principal derecho',
   '32-080-00': 'Lubricación · Tren de nariz',
+  '32-300-00': 'Presión de precarga · Acumulador de frenos',
   '32-350-00': 'Inflado de neumáticos',
   '33-010-00': 'Luces de emergencia',
 };

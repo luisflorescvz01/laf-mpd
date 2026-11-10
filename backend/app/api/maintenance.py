@@ -51,11 +51,12 @@ def execute_maintenance(body: ExecuteMaintenance, conn=Depends(flight_transactio
         count(*) AS cycles FROM flight_records WHERE aircraft_id=:aircraft AND status='COMPLETED'
         AND actual_arrival_at<=:now'''),params).mappings().one()
     params.update(hours=usage['hours'],cycles=usage['cycles'])
+    params['labor'] = conn.execute(text('SELECT labor_hours FROM mpd_tasks WHERE mpd_number=:task'), params).scalar_one()
     for _ in range(100):
         params['id'] = f'MNT{secrets.randbelow(100000):05}'
         record = conn.execute(text('''INSERT INTO maintenance_records
             (maintenance_id,aircraft_id,mpd_number,performed_at,flight_hours_at_maintenance,flight_cycles_at_maintenance,actual_labor_hours,notes)
-            VALUES (:id,:aircraft,:task,:now,:hours,:cycles,NULL,'Ejecución de demostración registrada desde el dashboard.')
+            VALUES (:id,:aircraft,:task,:now,:hours,:cycles,:labor,'Ejecución de demostración registrada desde el dashboard. Tiempo de trabajo tomado del estimado de la tarea.')
             ON CONFLICT (maintenance_id) DO NOTHING RETURNING *'''),params).mappings().first()
         if record:
             conn.execute(text('INSERT INTO maintenance_execution_requests VALUES (:request,:maintenance)'),
