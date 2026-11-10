@@ -2,3 +2,7 @@
 tmp/
 __pycache__/
 .venv/
+node_modules/
+dist/
+*.tsbuildinfo
+.pytest_cache/
