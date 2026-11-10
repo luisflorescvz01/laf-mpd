@@ -56,10 +56,6 @@ export function AircraftDetail() {
           </strong>
         </div>
         <div className="stat-card">
-          <span>Vuelos completados</span>
-          <strong className="stat-value">{num(a.total_flights)}</strong>
-        </div>
-        <div className="stat-card">
           <span>Último aterrizaje</span>
           <strong className="date-value">{date(a.last_flight_at)}</strong>
         </div>

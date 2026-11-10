@@ -1151,6 +1151,9 @@ select {
   font-size: 11px;
   margin: 0 0 20px;
 }
+.stat-grid.aircraft-detail-stats {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
 .aircraft-detail-stats .stat-card > span {
   font-size: 11px;
   color: #93a7c3;
