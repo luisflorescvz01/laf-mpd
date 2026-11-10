@@ -1,0 +1,89 @@
+{
+  "applied": true,
+  "seed": 20261109,
+  "evaluated_at": "2026-11-09T21:30:55.333107-06:00",
+  "tracking_start_at": "2026-08-11T00:00:00-06:00",
+  "counts": {
+    "aircrafts": 8,
+    "flight_routes": 6,
+    "mpd_tasks": 15,
+    "task_intervals": 36,
+    "aircraft_maintenance_tasks": 120,
+    "flight_records": 1120,
+    "maintenance_records": 809
+  },
+  "utilization": [
+    {
+      "aircraft_id": "LAF-737-001",
+      "total_flights": 180,
+      "total_flight_cycles": 180,
+      "total_flight_hours": "301.35",
+      "last_flight_at": "2026-11-08 20:24:00+00:00"
+    },
+    {
+      "aircraft_id": "LAF-737-002",
+      "total_flights": 172,
+      "total_flight_cycles": 172,
+      "total_flight_hours": "273.25",
+      "last_flight_at": "2026-11-08 20:41:00+00:00"
+    },
+    {
+      "aircraft_id": "LAF-737-003",
+      "total_flights": 164,
+      "total_flight_cycles": 164,
+      "total_flight_hours": "252.62",
+      "last_flight_at": "2026-11-08 18:23:00+00:00"
+    },
+    {
+      "aircraft_id": "LAF-737-004",
+      "total_flights": 156,
+      "total_flight_cycles": 156,
+      "total_flight_hours": "245.53",
+      "last_flight_at": "2026-11-08 18:49:00+00:00"
+    },
+    {
+      "aircraft_id": "LAF-737-005",
+      "total_flights": 140,
+      "total_flight_cycles": 140,
+      "total_flight_hours": "227.75",
+      "last_flight_at": "2026-11-08 18:10:00+00:00"
+    },
+    {
+      "aircraft_id": "LAF-737-006",
+      "total_flights": 124,
+      "total_flight_cycles": 124,
+      "total_flight_hours": "207.00",
+      "last_flight_at": "2026-11-08 18:47:00+00:00"
+    },
+    {
+      "aircraft_id": "LAF-737-007",
+      "total_flights": 108,
+      "total_flight_cycles": 108,
+      "total_flight_hours": "175.43",
+      "last_flight_at": "2026-11-08 19:11:00+00:00"
+    },
+    {
+      "aircraft_id": "LAF-737-008",
+      "total_flights": 76,
+      "total_flight_cycles": 76,
+      "total_flight_hours": "126.03",
+      "last_flight_at": "2026-11-08 18:58:00+00:00"
+    }
+  ],
+  "interval_states": [
+    {
+      "status": "DUE",
+      "count": 2
+    },
+    {
+      "status": "OVERDUE",
+      "count": 11
+    },
+    {
+      "status": "WITHIN_LIMIT",
+      "count": 131
+    }
+  ],
+  "near_intervals": 12,
+  "validation": "All invariants passed; fleet and routes unchanged"
+}

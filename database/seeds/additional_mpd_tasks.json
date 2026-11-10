@@ -1,0 +1,18 @@
+{
+  "document": "D626A011",
+  "edition": "2026-05-15",
+  "file": "01___056.PDF",
+  "validation_status": "PENDING_AERONAUTICAL_VALIDATION",
+  "tasks": [
+    {"mpd_number":"24-010-01","task_type":"SVC","description_original":"Service (change) left IDG oil.","amm_references":["12-13-21-600"],"zones":["411"],"labor_hours":"0.50","page":"1.1-26","page_revision":"2025-09-15","intervals":{"FH":1800}},
+    {"mpd_number":"24-010-02","task_type":"SVC","description_original":"Service (change) right IDG oil.","amm_references":["12-13-21-600"],"zones":["421"],"labor_hours":"0.50","page":"1.1-26","page_revision":"2025-09-15","intervals":{"FH":1800}},
+    {"mpd_number":"24-030-01","task_type":"DET","description_original":"Inspect (Detailed) the left IDG oil level.","amm_references":["12-13-21-200"],"zones":["411"],"labor_hours":"0.10","page":"1.1-26","page_revision":"2025-09-15","intervals":{"FH":800}},
+    {"mpd_number":"24-030-02","task_type":"DET","description_original":"Inspect (Detailed) the right IDG oil level.","amm_references":["12-13-21-200"],"zones":["421"],"labor_hours":"0.10","page":"1.1-26","page_revision":"2025-09-15","intervals":{"FH":800}},
+    {"mpd_number":"29-090-00","task_type":"VCK","description_original":"Visually check the Delta \"P\" indication of A and B system return filter module.","amm_references":["29-11-61-210"],"zones":["133","134"],"labor_hours":"0.10","page":"1.1-73","page_revision":"2026-01-15","intervals":{"FH":600}},
+    {"mpd_number":"32-010-01","task_type":"RST","description_original":"Restore (Clean) exposed surfaces of the left main landing gear shock strut.","amm_references":["32-00-10-100"],"zones":["734"],"labor_hours":"0.05","page":"1.1-79","page_revision":"2026-01-15","intervals":{"FC":50}},
+    {"mpd_number":"32-010-02","task_type":"RST","description_original":"Restore (Clean) exposed surfaces of the right main landing gear shock strut.","amm_references":["32-00-10-100"],"zones":["744"],"labor_hours":"0.05","page":"1.1-79","page_revision":"2026-01-15","intervals":{"FC":50}},
+    {"mpd_number":"32-030-01","task_type":"LUB","description_original":"Lubricate the left main landing gear assembly.","amm_references":["12-21-11-640","12-25-07-600"],"zones":["734"],"labor_hours":"0.50","page":"1.1-79","page_revision":"2026-01-15","intervals":{"FC":560,"DY":90}},
+    {"mpd_number":"32-030-02","task_type":"LUB","description_original":"Lubricate the right main landing gear assembly.","amm_references":["12-21-11-640","12-25-07-600"],"zones":["744"],"labor_hours":"0.50","page":"1.1-79","page_revision":"2026-01-15","intervals":{"FC":560,"DY":90}},
+    {"mpd_number":"32-300-00","task_type":"FNC","description_original":"Functionally check the brake accumulator precharge pressure, service as required.","amm_references":["12-15-11-610"],"zones":["134","211","212"],"labor_hours":"0.05","page":"1.1-84","page_revision":"2026-01-15","intervals":{"FH":1200}}
+  ]
+}
