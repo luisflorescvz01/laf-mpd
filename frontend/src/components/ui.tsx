@@ -96,7 +96,10 @@ export function Drawer({
     <dialog
       ref={dialog}
       className="drawer"
-      onCancel={onClose}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

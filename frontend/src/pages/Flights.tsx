@@ -5,8 +5,13 @@ import { useDashboard } from '../hooks/useDashboard';
 import { Badge, Empty, Pagination, SearchBox, Drawer, DetailGrid } from '../components/ui';
 import { date, num, localDay, statusLabels } from '../utils/format';
 import type { Flight } from '../types';
+import { FlightForm } from '../components/FlightForm';
+import { CancelFlight } from '../components/CancelFlight';
 export function Flights() {
-  const { data } = useDashboard();
+  const { data, refresh } = useDashboard();
+  const [form, setForm] = useState<Flight | 'new' | null>(null);
+  const [notice, setNotice] = useState('');
+  const [cancelFlight, setCancelFlight] = useState<Flight | null>(null);
   const [params, setParams] = useSearchParams();
   const [route, setRoute] = useState('');
   const [status, setStatus] = useState('');
@@ -36,8 +41,21 @@ export function Flights() {
           </h1>
           <p>Consulta la operación por aeronave, ruta y fecha.</p>
         </div>
-        <span className="outline-pill">{data.flights.length} registros</span>
+        <button
+          className="button primary"
+          onClick={() => {
+            setNotice('');
+            setForm('new');
+          }}
+        >
+          + Nuevo vuelo
+        </button>
       </div>
+      {notice && (
+        <p role="status" className="success-banner">
+          {notice}
+        </p>
+      )}
       <div className="toolbar">
         <SearchBox
           value={q}
@@ -143,7 +161,7 @@ export function Flights() {
                 <tr>
                   <th>Vuelo / Aeronave</th>
                   <th>Ruta</th>
-                  <th>Despegue real</th>
+                  <th>Salida / Despegue</th>
                   <th>Duración</th>
                   <th>Estado</th>
                   <th />
@@ -166,12 +184,25 @@ export function Flights() {
                       </span>
                       <small>{f.route_id}</small>
                     </td>
-                    <td>{date(f.actual_departure_at)}</td>
+                    <td>
+                      {date(f.actual_departure_at || f.planned_departure_at)}
+                      {!f.actual_departure_at && <small>Programado</small>}
+                    </td>
                     <td>{num(f.flight_time_minutes, 0)} min</td>
                     <td>
                       <Badge status={f.status} />
                     </td>
                     <td>
+                      {f.status === 'PLANNED' && (
+                        <>
+                          <button className="button secondary" onClick={() => setForm(f)}>
+                            Finalizar
+                          </button>
+                          <button className="button secondary" onClick={() => setCancelFlight(f)}>
+                            Cancelar
+                          </button>
+                        </>
+                      )}
                       <button
                         className="icon-button"
                         aria-label={`Ver vuelo ${f.flight_id}`}
@@ -197,6 +228,28 @@ export function Flights() {
           onClose={() => setSelected(null)}
         >
           <Badge status={selected.status} />
+          {selected.status === 'PLANNED' && (
+            <button
+              className="button secondary"
+              onClick={() => {
+                setCancelFlight(selected);
+                setSelected(null);
+              }}
+            >
+              Cancelar vuelo
+            </button>
+          )}
+          {selected.status === 'PLANNED' && (
+            <button
+              className="button primary"
+              onClick={() => {
+                setForm(selected);
+                setSelected(null);
+              }}
+            >
+              Finalizar vuelo
+            </button>
+          )}
           <h3>Horarios · Monterrey</h3>
           <DetailGrid
             items={[
@@ -213,6 +266,44 @@ export function Flights() {
             ]}
           />
         </Drawer>
+      )}
+      {cancelFlight && (
+        <CancelFlight
+          flight={cancelFlight}
+          onClose={() => setCancelFlight(null)}
+          onSaved={() => {
+            setNotice(`Vuelo ${cancelFlight.flight_id} cancelado. No suma FH ni FC.`);
+            setQ(cancelFlight.flight_id);
+            setStatus('');
+            setPage(1);
+            setSelected(null);
+            setCancelFlight(null);
+            refresh();
+          }}
+        />
+      )}
+      {form && (
+        <FlightForm
+          flight={form === 'new' ? undefined : form}
+          onClose={() => setForm(null)}
+          onSaved={(id) => {
+            setNotice(
+              form === 'new'
+                ? `Vuelo ${id} planeado. Todavía no suma FH ni FC.`
+                : `Vuelo ${id} completado. Actualizando utilización y mantenimiento…`,
+            );
+            setForm(null);
+            setSelected(null);
+            setPage(1);
+            setParams({});
+            setRoute('');
+            setStatus('');
+            setFrom('');
+            setTo('');
+            setQ(id);
+            refresh();
+          }}
+        />
       )}
     </>
   );

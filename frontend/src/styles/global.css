@@ -1655,3 +1655,51 @@ select {
     scroll-behavior: auto !important;
   }
 }
+.flight-form fieldset {
+  border: 0;
+  padding: 0;
+  margin: 24px 0;
+  min-width: 0;
+}
+.flight-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 18px;
+  color: var(--text, #e5edf8);
+  font-size: 13px;
+}
+.flight-form input,
+.flight-form select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  color-scheme: dark;
+  border: 1px solid #34425b;
+  background: #111d30;
+  border-radius: 8px;
+  color: #eef3fb;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+.success-banner {
+  padding: 16px;
+  border: 1px solid #257b64;
+  background: #10362c;
+  color: #b3f3da;
+  border-radius: 12px;
+}
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

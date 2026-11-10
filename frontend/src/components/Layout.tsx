@@ -90,7 +90,7 @@ export function Layout() {
           <span className={`connection-dot ${error ? 'offline' : ''}`} />
           <div>
             {error ? 'Conexión interrumpida' : data ? 'Base de datos conectada' : 'Conectando…'}
-            <small>Entorno local · Solo consulta</small>
+            <small>Entorno local · Registro de vuelos</small>
           </div>
         </div>
         <div className="profile">
@@ -116,7 +116,7 @@ export function Layout() {
           </div>
           <span className="demo-label">
             <span />
-            Datos ficticios · Solo consulta
+            Datos ficticios · Operación local
           </span>
         </header>
         <main id="main">

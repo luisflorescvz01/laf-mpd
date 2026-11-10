@@ -90,7 +90,13 @@ export interface DashboardData {
   flights: Flight[];
   history: HistoryRecord[];
   maintenance: MaintenanceTask[];
-  routes: { route_id: string; departure: string; arrival: string; distance_nm: number }[];
+  routes: {
+    route_id: string;
+    departure: string;
+    arrival: string;
+    distance_nm: number;
+    estimated_duration_minutes: number | null;
+  }[];
   evaluated_at: string;
   warning_ratio: number;
   summary: {

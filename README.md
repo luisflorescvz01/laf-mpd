@@ -1,6 +1,6 @@
 # LAF Aircraft Maintenance Intelligence
 
-Dashboard local de consulta para una aerolinea ficticia: React + TypeScript,
+Dashboard local con registro de vuelos para una aerolinea ficticia: React + TypeScript,
 FastAPI, SQLAlchemy y PostgreSQL. Tema oscuro inspirado en la referencia del proyecto.
 
 ## Abrir la aplicacion
@@ -15,8 +15,8 @@ docker compose up -d --build
 - Documentacion de la API: http://localhost:8000/docs
 - Estado de la API: http://localhost:8000/api/health
 
-La base local contiene 8 aeronaves, 6 rutas, 20 vuelos, 5 tareas, 12 intervalos,
-10 mantenimientos y 40 asignaciones. No se alteran los registros al iniciar el
+El escenario base contiene 8 aeronaves, 6 rutas, 1120 vuelos, 15 tareas, 36 intervalos,
+809 mantenimientos y 120 asignaciones. Los vuelos nuevos se agregan desde la interfaz. No se alteran los registros al iniciar el
 frontend o la API. Los datos persisten en el volumen Docker existente.
 
 No reemplazar `.env` ni eliminar el volumen para iniciar el dashboard.
@@ -37,9 +37,9 @@ frontend/
   nginx.conf        Servidor del frontend y proxy /api
 backend/
   app/
-    api/            Endpoints GET
+    api/            Endpoints de consulta y registro de vuelos
     core/           Configuracion de proximidad
-    database/       Conexion SQLAlchemy de solo lectura
+    database/       Conexiones SQLAlchemy de lectura y escritura
     queries/        Consultas SQL utilizadas por la API
     services/       Clasificacion y agrupacion de alertas
   tests/            Pruebas de reglas y API con la base local
@@ -83,12 +83,12 @@ cd frontend
 npm run build
 ```
 
-Las pruebas de integracion consultan la base existente y no modifican datos.
+Las pruebas de vuelos utilizan transacciones que se revierten; no dejan registros de prueba.
 `npm run format` aplica el formato consistente a los archivos del frontend.
 
 ## Reglas y alcance
 
-- Solo consulta: no hay formularios de alta, edicion ni borrado.
+- Vuelos: crear planeados y registrar finalizacion. Las demas secciones siguen en consulta.
 - Aviso de proximidad al 10% restante, configurable con WARNING_RATIO.
 - Las alertas cuentan tareas por aeronave, no cada unidad de intervalo.
 - Fechas de visualizacion: America/Monterrey. FH en horas decimales.
@@ -99,4 +99,5 @@ Las pruebas de integracion consultan la base existente y no modifican datos.
 - Sin autenticacion; no publicar esta configuracion local directamente en Internet.
 
 Ver `docs/dashboard.md` para detalles. La API usa SQLAlchemy Core sobre las tablas
-existentes. No se han implementado Alembic, formularios ni modelo predictivo.
+existentes. No se han implementado Alembic ni modelo predictivo. Ver `docs/flight-registration.md`
+para el formulario, sus validaciones y la migracion 013 (ya aplicada localmente).
