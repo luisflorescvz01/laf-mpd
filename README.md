@@ -1,7 +1,7 @@
 # LAF Aircraft Maintenance Intelligence
 
 Dashboard local con registro de vuelos para una aerolinea ficticia: React + TypeScript,
-FastAPI, SQLAlchemy y PostgreSQL. Tema oscuro inspirado en la referencia del proyecto.
+FastAPI, SQLAlchemy y PostgreSQL. Tema claro con acentos azules y estados de mantenimiento diferenciados.
 
 ## Abrir la aplicacion
 
@@ -33,7 +33,7 @@ frontend/
     hooks/          Snapshot, refresco automatico y estados de conexion
     types/          Tipos de datos TypeScript
     utils/          Fechas de Monterrey, numeros y etiquetas
-    styles/         Tema oscuro y adaptacion de pantallas
+    styles/         Tema claro y adaptacion de pantallas
   nginx.conf        Servidor del frontend y proxy /api
 backend/
   app/
