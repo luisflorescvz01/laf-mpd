@@ -4,10 +4,12 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from app.api.routes import router
 from app.api.flights import router as flights_router
+from app.api.maintenance import router as maintenance_router
 
 app = FastAPI(title='LAF Maintenance · API', version='0.2.0')
 app.include_router(router)
 app.include_router(flights_router)
+app.include_router(maintenance_router)
 
 
 @app.exception_handler(SQLAlchemyError)

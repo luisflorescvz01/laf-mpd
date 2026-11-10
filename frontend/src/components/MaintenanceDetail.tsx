@@ -1,4 +1,5 @@
 import type { MaintenanceTask } from '../types';
+import { useRef, useState } from 'react';
 import { Badge, DetailGrid, Drawer } from './ui';
 import { date, num, taskName } from '../utils/format';
 import { useDashboard } from '../hooks/useDashboard';
@@ -9,7 +10,50 @@ export function MaintenanceDetail({
   task: MaintenanceTask;
   onClose: () => void;
 }) {
-  const { data } = useDashboard();
+  const { data, refresh } = useDashboard();
+  const [confirm, setConfirm] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const [saved, setSaved] = useState('');
+  const pending = useRef(false);
+  const request = useRef(crypto.randomUUID());
+  task =
+    data?.maintenance.find(
+      (t) => t.aircraft_id === task.aircraft_id && t.mpd_number === task.mpd_number,
+    ) || task;
+  async function perform() {
+    if (pending.current) return;
+    pending.current = true;
+    setBusy(true);
+    setError('');
+    try {
+      const response = await fetch('/api/maintenance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(20000),
+        body: JSON.stringify({
+          request_id: request.current,
+          aircraft_id: task.aircraft_id,
+          mpd_number: task.mpd_number,
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok)
+        throw new Error(
+          typeof result.detail === 'string'
+            ? result.detail
+            : 'No se pudo registrar el mantenimiento.',
+        );
+      setSaved(result.maintenance_id);
+      setConfirm(false);
+      refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'No se pudo guardar. Intenta nuevamente.');
+    } finally {
+      pending.current = false;
+      setBusy(false);
+    }
+  }
   const history =
     data?.history.filter(
       (r) => r.aircraft_id === task.aircraft_id && r.mpd_number === task.mpd_number,
@@ -18,9 +62,46 @@ export function MaintenanceDetail({
     <Drawer
       title={taskName(task.mpd_number)}
       subtitle={`${task.aircraft_id} · MPD ${task.mpd_number}`}
-      onClose={onClose}
+      onClose={() => {
+        if (!pending.current) onClose();
+      }}
     >
       <Badge status={task.alert_status} />
+      {saved ? (
+        <p role="status" className="success-banner">
+          Mantenimiento {saved} registrado. Se actualizaron las referencias de todos los límites de
+          esta tarea.
+        </p>
+      ) : confirm ? (
+        <section className="limit-card">
+          <h3>Confirmar mantenimiento</h3>
+          <p>
+            Se registrará la tarea {task.mpd_number} en {task.aircraft_id} con la fecha, horas y
+            ciclos actuales.
+          </p>
+          <p className="help">
+            Todos sus límites usarán este servicio como referencia para los intervalos repetitivos.
+            Los acumulados de la aeronave se conservan.
+          </p>
+          <div className="form-actions">
+            <button className="button secondary" disabled={busy} onClick={() => setConfirm(false)}>
+              Volver
+            </button>
+            <button className="button primary" disabled={busy} onClick={perform}>
+              {busy ? 'Registrando…' : 'Confirmar mantenimiento'}
+            </button>
+          </div>
+        </section>
+      ) : (
+        <button className="button primary" onClick={() => setConfirm(true)}>
+          Realizar mantenimiento
+        </button>
+      )}
+      {error && (
+        <p role="alert" className="error-banner">
+          {error}
+        </p>
+      )}
       <h3>Límites de mantenimiento</h3>
       {task.limits.map((l) => (
         <div className="limit-card" key={l.interval_unit}>
